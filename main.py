@@ -1,4 +1,4 @@
-()import pygame
+import pygame
 from ship import *
 from asteroid import *
 
@@ -21,6 +21,7 @@ def init():
     Asteroids.add(Asteroid())
 
 def main():
+   init()
    while Level <= Numlevels:
       clock.tick(60)
       for event in pygame.event.get():
@@ -51,10 +52,12 @@ def main():
         elif event.type == pygame.KEYUP:
           if event.key == pygame.K_DOWN:
             player.speed[1] = 0
-      danger.update()
+      #danger.update()
       player.update()
       screen.fill(color)
-      screen.blit(danger.image, danger.rect)
+      #screen.blit(danger.image, danger.rect)
+      Asteroids.draw(screen)
+      Asteroids.update()
       screen.blit(player.image, player.rect)
       pygame.display.flip()
 
