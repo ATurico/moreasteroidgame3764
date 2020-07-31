@@ -1,4 +1,4 @@
-import pygame
+import pygame, pandas as pd
 from ship import *
 from asteroid import *
 
@@ -10,13 +10,16 @@ screen = pygame.display.set_mode(size)
 clock =  pygame.time.Clock()
 color = (0, 10, 30)
 
-Numlevels = 4
-Level = 1
-AsteroidCount = 4
-player = Ship()
+df = pd.read_csv('game_info.csv')
+
+Numlevels = df['LevelNum'].max()
+Level = df['LevelNum'].min()
+AsteroidCount = df.iloc[LevelNum]
+player = Ship((LevelData['PlayerX'], LevelData['PlayerY']))
 Asteroids = pygame.sprite.Group()
 
 def init():
+  player.reset((35,300))
   for i in range(AsteroidCount):
     Asteroids.add(Asteroid())
 
@@ -54,6 +57,7 @@ def main():
             player.speed[1] = 0
       #danger.update()
       player.update()
+      get_hit = pygame.sprite.spritecollide(player, Asteroids, False)
       screen.fill(color)
       #screen.blit(danger.image, danger.rect)
       Asteroids.draw(screen)
@@ -61,5 +65,11 @@ def main():
       screen.blit(player.image, player.rect)
       pygame.display.flip()
 
+      if player.checkReset(800):
+        init()
+      elif get_hit:
+        player.reset((35, 300))
+
 if __name__=='__main__':
   main()
+ 

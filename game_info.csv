@@ -1,0 +1,5 @@
+LevelNum,AsteroidCount,PlayerX,PlayerY
+0,3,35,300
+1,8,35,300
+2,12,35,300
+3,18,0,300
