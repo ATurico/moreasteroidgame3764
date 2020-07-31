@@ -14,7 +14,8 @@ df = pd.read_csv('game_info.csv')
 
 Numlevels = df['LevelNum'].max()
 Level = df['LevelNum'].min()
-AsteroidCount = df.iloc[LevelNum]
+LevelData = df.iloc[Level]
+AsteroidCount = LevelData['AsteroidCount']
 player = Ship((LevelData['PlayerX'], LevelData['PlayerY']))
 Asteroids = pygame.sprite.Group()
 
@@ -25,6 +26,7 @@ def init():
 
 def main():
    init()
+   global Level
    while Level <= Numlevels:
       clock.tick(60)
       for event in pygame.event.get():
@@ -66,10 +68,13 @@ def main():
       pygame.display.flip()
 
       if player.checkReset(800):
-        init()
+        if Level == Numlevels:
+          break
+        else:
+          Level += 1
+          init()
       elif get_hit:
         player.reset((35, 300))
 
 if __name__=='__main__':
   main()
- 
